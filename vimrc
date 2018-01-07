@@ -122,6 +122,10 @@ call pathogen#helptags()
 "
 " -- Colors --
 "
+" Lightline:
+" Add a pretty status bar to the bottom of the window
+" https://github.com/itchyny/lightline.vim
+"
 " VimColorschemes:
 " Just adds a ton of colorschemes. Run :colorscheme to see them all.
 " https://github.com/flazz/vim-colorschemes
@@ -289,13 +293,28 @@ set hidden              " Allows Vim to open buffers in background
 " === Plugin-Specific Settings === {{{
 
 set laststatus=2        " Always show the statusline
-" set noshowmode
+set noshowmode
 
-set statusline+=%#warningmsg#
+let g:lightline = {
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'component_function': {
+            \   'syntastic': 'SyntasticStatuslineFlag'
+            \ },
+            \ }
+
 if v:version > 700
-    set statusline+=%{SyntasticStatuslineFlag()}
+    call add(g:lightline.active.left, [ 'syntastic' ])
 endif
-set statusline+=%*
+
+" set statusline+=%#warningmsg#
+" if v:version > 700
+"     set statusline+=%{SyntasticStatuslineFlag()}
+" endif
+" set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1

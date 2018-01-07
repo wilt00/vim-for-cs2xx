@@ -29,6 +29,7 @@ plugins = [
     'godlygeek/tabular',
     'vim-scripts/nextval',
     'airblade/vim-gitgutter',
+    'itchyny/lightline.vim',
     'flazz/vim-colorschemes',
     'tomasr/molokai',
 ]
