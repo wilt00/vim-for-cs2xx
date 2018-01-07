@@ -202,7 +202,10 @@ set wrap                  " Allow text to wrap
 set showbreak=»»»         " prepend these characters to wrapped lines
 
 " Display invisible characters using following substitutions
-set listchars=tab:>~,nbsp:_,trail:.
+set listchars=tab:\ \ ,nbsp:_,trail:.
+" autocmd FileType make setlocal listchars+=tab:>~
+" That commented line is a bit of a hack; tab characters will be invisible
+" until you open a makefile, and then they show up everywhere
 set list
 
 set backup                " Vim will create .swp files if your session crashes
