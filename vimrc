@@ -14,7 +14,7 @@
 "   :help [thing you want info about]
 
 " Highlight a line below and press Space (or 'za') in Normal mode to fold and
-" unfold sections of this file
+" unfold sections of this file. 'zR' to open everything.
 
 " === Boilerplate === {{{
 
@@ -135,7 +135,7 @@ call pathogen#helptags()
 
 " === General Settings === {{{
 
-set exrc                   " Vim will read settings from .vimrc in project directory
+set exrc                   " Vim will read settings from .vimrc files in project directories
 set secure                 " exrc is a security hole; this prevents insecure commands
 
 if !exists("g:syntax_on")  " Prevent unnecessary execution when sourcing this file
@@ -168,7 +168,7 @@ filetype indent on
 autocmd FileType make setlocal noexpandtab
 
 set number                " show line numbers
-set showcmd               " displays last command entered in lower right
+set showcmd               " displays last command entered in lower left
 set showmode              " displays current mode at the bottom
 set cursorline            " highlights current line
 
@@ -190,18 +190,18 @@ set undofile              " create <filename>.un~ on editing file; allows undo b
 set undodir=~/.vim/undofiles,.
 " Write new undofiles to ~/.vim/undofiles; still reads from local directory if
 " you have any undofiles there
-au FocusLost * :wa        " Saves file whenever vim window loses focus
+autocmd FocusLost * :wa   " Saves file whenever vim window loses focus
 set ruler                 " display line & column number in lower right
 
-set wrap
+set wrap                  " Allow text to wrap
 set showbreak=»»»         " prepend these characters to wrapped lines
-set colorcolumn=81
+set colorcolumn=81        " Highlight the 81st column, so you know when your line's too long
 
 " Display invisible characters using following substitutions
 set listchars=tab:>~,nbsp:_,trail:.
 set list
 
-set backup
+set backup                " Vim will create .swp files if your session crashes
 " set backupdir=~/.vim/tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 " set directory=~/.vim/tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set backupdir=~/.vim/tmp,~/.tmp,~/tmp
@@ -210,6 +210,7 @@ set directory=~/.vim/tmp,~/.tmp,~/tmp
 " The commented-out lines are a good idea on your personal computer, but in a
 " shared environment like bertvm, probably not
 
+" Vim will ignore files that look like these:
 set wildignore+=*/.git/*,*/tmp/*,*.swp,*.o,*/.hg/*,*/.svn/*,*/.DS_Store,*~,*.pyc
 
 set backspace=eol,start,indent  " indent:   allow backspacing over autoindent
@@ -218,28 +219,22 @@ set backspace=eol,start,indent  " indent:   allow backspacing over autoindent
                                 "            insert
 set noerrorbells
 
+set foldenable            " enable code folding
+set foldlevelstart=10     " open some folds by default. Set to 0 to close all by default, 99 to open all
+set foldnestmax=10        " maximum of 10 nested folds
+set foldmethod=syntax     " other options are: indent, marker, manual, expr, syntax, diff. For more, run :help foldmethod
+
 " }}}
 
 " === Keybindings === {{{
 
+" By default, <leader> is \
+
+" Remap jk to Escape, so you can use it to switch back to Normal mode
 inoremap jk <ESC>
 
-nnoremap <leader>s :source %<CR>
-
-" nnoremap ' `
-" nnoremap ` '
-" Reverses keys such that:
-" Typing 'a jumps to mark
-" Typing `a jumps to beginning of line where mark is
-
+" Maps \<space> to unhighlight search results
 nnoremap <leader><space> :nohlsearch<CR>
-" maps \<space> to unhighlight search results
-
-set foldenable            " enable code folding
-set foldlevelstart=10     " open some folds by default. Set to 0 to close all by default, 99 to open all
-set foldnestmax=10        " maximum of 10 nested folds
-set foldmethod=syntax     " other options are: marker, manual, expr, syntax, diff. For more, run :help foldmethod
-                          " previously: indent
 
 " Map space to open/close folds
 nnoremap <space> za
@@ -250,23 +245,21 @@ inoremap <F5> <C-R>=strftime("%c")<CR>
 
 " Force save when vim was opened without sudo privileges
 " See https://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work
-cnoremap w!! w !sudo tee % >/dev/null
+" cnoremap w!! w !sudo tee % >/dev/null
+" We don't have sudo privileges here, but I thought this was still neat.
 
 " In visual mode, move blocks of text up and down with <C-j> and <C-k>
 vnoremap <C-j> :m '>+1<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
 " http://vim.wikia.com/wiki/Moving_lines_up_or_down
 
-let g:lasttab = 1
-
 " Switch to newly created splits
 nnoremap <C-w>v <C-w>v<C-w>w
 nnoremap <C-w>s <C-w>s<C-w>w
 
 " Swap functionality of Ctrl-backspace and C-w
-" Ctrl-backspace to delete a word, because Windows
+" Ctrl-backspace to delete a word, because that's how Windows does it
 inoremap  <C-w>
-" inoremap <C-w> <C-o><C-w>
 " C-w in insert mode switches to normal mode and awaits window command
 inoremap <C-w> <ESC><C-w>
 
@@ -288,7 +281,7 @@ set hidden              " Allows Vim to open buffers in background
 
 " === Plugin-Specific Settings === {{{
 
-" set laststatus=2
+set laststatus=2        " Always show the statusline
 " set noshowmode
 
 set statusline+=%#warningmsg#
@@ -300,29 +293,18 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+" Choose which flags Syntastic sends to GCC
 let g:syntastic_c_compiler_options = "-Wall -Wextra"
 
-function! NumberOfBuffers() abort
-    return len(getbufinfo({'buflisted':1}))
-endfunction
-
 colorscheme molokai
-" colorscheme farout
 " colorscheme railscasts
-" colorscheme autumnleaf " Preferred light colorscheme
+" colorscheme autumnleaf " A nice light colorscheme
 " colorscheme iceman
-" set background=dark
-" colorscheme gruvbox
-" let g:gruvbox_sign_column="bg1"
 
-nnoremap <leader>g :Magit<CR>
-
+" Tell Clang_Complete where to find Clang
 let g:clang_library_path='/usr/local/clang+llvm-3.3-Ubuntu-13.04-x86_64-linux-gnu/lib'
 
 set completeopt=menuone,preview
-" inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "<C-P>" : "<S-Tab>"
-" https://robots.thoughtbot.com/vim-you-complete-me
 
 " }}}
 
