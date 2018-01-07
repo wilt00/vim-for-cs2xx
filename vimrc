@@ -186,16 +186,20 @@ set ignorecase            " case insensitive search
 set smartcase             " except sometimes
 set infercase             " and when doing tab completions
 
-set undofile              " create <filename>.un~ on editing file; allows undo between sessions
-set undodir=~/.vim/undofiles,.
-" Write new undofiles to ~/.vim/undofiles; still reads from local directory if
-" you have any undofiles there
+if v:version > 700        " These settings don't exist in Bert's version of Vim
+    set undofile              " create <filename>.un~ on editing file; allows undo between sessions
+    set undodir=~/.vim/undofiles,.
+    " Write new undofiles to ~/.vim/undofiles; still reads from local directory if
+    " you have any undofiles there
+
+    set colorcolumn=81        " Highlight the 81st column, so you know when your line's too long
+endif
+
 autocmd FocusLost * :wa   " Saves file whenever vim window loses focus
 set ruler                 " display line & column number in lower right
 
 set wrap                  " Allow text to wrap
 set showbreak=»»»         " prepend these characters to wrapped lines
-set colorcolumn=81        " Highlight the 81st column, so you know when your line's too long
 
 " Display invisible characters using following substitutions
 set listchars=tab:>~,nbsp:_,trail:.
@@ -285,7 +289,9 @@ set laststatus=2        " Always show the statusline
 " set noshowmode
 
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+if v:version > 700
+    set statusline+=%{SyntasticStatuslineFlag()}
+endif
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
