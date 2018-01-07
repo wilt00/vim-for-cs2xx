@@ -45,10 +45,15 @@ end
 if File.file?(homedir + '.vimrc.old')
     unless force
         greenprint('~/.vimrc.old file found; cancelling installation')
-        greenprint('To override, pass \'--force\' argument and make sure your old .vimrc is backed up.')
+        greenprint('To override, pass \'--force\' argument and make sure your current .vimrc is backed up.')
         exit
     end
-    greenprint('Forcing installation')
+    greenprint('Forcing installation:')
+    greenprint('Deleting existing .vimrc, if any ...')
+    FileUtils.rm(homedir + '.vimrc')
+    greenprint('Deleting existing .vim subdirectories, if any ...')
+    FileUtils.remove_dir(vimdir + 'bundle')
+    FileUtils.remove_dir(vimdir + 'autoload')
 end
 
 # Back up existing .vimrc, .vim/bundle, and .vim/autoload
@@ -71,6 +76,11 @@ end
 if File.directory?(vimdir + 'autoload/')
     greenprint("Found existing autoload directory; backing up to ~/.vim/autoload.old")
     FileUtils.mv(vimdir + 'autoload/', vimdir + 'autoload.old/')
+end
+
+# Add tmp directory for backups
+unless File.directory?(vimdir + 'tmp/')
+    File.mkdir_p(vimdir + 'tmp/')
 end
 
 # Install Pathogen
