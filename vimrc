@@ -39,6 +39,7 @@ endif
 " For more information: https://github.com/tpope/vim-pathogen
 
 execute pathogen#infect()
+call pathogen#helptags()
 
 " To install your own plugins:
 " In the terminal, go to ~/.vim/bundle
@@ -84,7 +85,7 @@ execute pathogen#infect()
 "
 " -- Syntax Highlighting --
 "
-" vim-syntax-x86-objdump-d:
+" Vim Syntax X86 Objdump:
 " Syntax highlighting for the output of your objdumps
 " Make sure you save these files with the .dis extension
 " https://github.com/shiracamus/vim-syntax-x86-objdump-d
