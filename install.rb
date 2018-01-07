@@ -43,8 +43,8 @@ elsif File.file?(homedir + '.vimrc')
 end
 
 # Symlink .vimrc to ~
-greenprint("Creating symlink from ./.vimrc to ~/.vimrc ...")
-File.symlink(File.expand_path('./.vimrc'), homedir + '.vimrc')
+greenprint("Creating symlink from ./vimrc to ~/.vimrc ...")
+File.symlink(File.expand_path('./vimrc'), homedir + '.vimrc')
 
 if File.directory?(vimdir + 'bundle/')
     greenprint("Found existing bundle directory; backing up to ~/.vim/bundle.old")
