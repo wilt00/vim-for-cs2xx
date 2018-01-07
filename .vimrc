@@ -1,0 +1,328 @@
+"
+" Vim for CS 2XX - A Starter Configuration
+" ========================================
+"
+" Further Reading:
+" https://github.com/amix/vimrc/
+" https://github.com/spf13/spf13-vim/blob/3.0/.vimrc
+" https://stevelosh.com/blog/2010/09/coming-home-to-vim/
+" http://items.sjbach.com/319/configuring-vim-right
+" https://bluz71.github.io/2017/05/15/vim-tips-tricks.html
+" http://www.alexeyshmalko.com/2014/using-vim-as-c-cpp-ide/
+
+" For more information on anything in this file, enter
+"   :help [thing you want info about]
+
+" Highlight a line below and press Space (or 'za') in Normal mode to fold and
+" unfold sections of this file
+
+" === Boilerplate === {{{
+
+if &compatible
+    set nocompatible          " Break backwards compatibility with vi
+    " Needs to be set first, as has effects on other settings
+endif
+
+set t_Co=256
+if &term =~ '256color'
+    " disable Background Color Erase (BCE) so that color schemes
+    " render properly when inside 256-color tmux and GNU screen.
+    " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
+    set t_ut=
+endif
+
+" }}}
+
+" === Plugin Installation === {{{
+
+" Install plugins using Vundle
+" For more information: https://github.com/VundleVim/Vundle.vim
+"
+" On first execution, run
+"   :PluginInstall
+"
+" To update plugins in the future, every so often run
+"   :PluginUpdate
+
+filetype off    " Required for Vundle, reverted later
+" Set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" Make sure you use single quotes
+
+" -- Interface Extensions --
+Plugin 'mbbill/undotree'
+" Vim stores your undo history in a tree structure; this plugin lets you see it
+" Open and close undo sidebar with
+"   :UndotreeToggle
+" https://github.com/mbbill/undotree
+Plugin 'junegunn/vim-peekaboo'                " Overrides \" and @
+" Instead of using a clipboard, Vim stores previously copied, cut, and deleted
+" text in registers. This plugin shows you what's currently in the registers
+" when you type " or @ in normal mode
+" https://github.com/junegunn/vim-peekaboo
+
+" -- Coding Helpers --
+Plugin 'vim-syntastic/syntastic'
+" Check your code files for correct syntax on save
+" https://github.com/vim-syntastic/syntastic
+Plugin 'Rip-Rip/clang_complete'
+" Use the Clang compiler to provide autocompletion options for C and C++
+" https://github.com/Rip-Rip/clang_complete
+Plugin 'ajh17/VimCompletesMe'
+" A more intuitive set of keybindings for Vim's autocompletion features
+" While typing, press Tab to open the autocompletion menu
+" Keep pressing Tab to cycle through the options
+" https://github.com/ajh17/VimCompletesMe
+
+" -- Syntax Highlighting --
+Plugin 'shiracamus/vim-syntax-x86-objdump-d'
+" Syntax highlighting for the output of your objdumps
+" Make sure you save these files with the .dis extension
+" https://github.com/shiracamus/vim-syntax-x86-objdump-d
+Plugin 'wilt00/vim-y86-syntax'
+" Syntax highlighting for .ya and .ys files
+" I wrote this one! Let me know if you find any bugs.
+" https://github.com/wilt00/vim-y86-syntax
+
+" -- Bonus Keybindings --
+Plugin 'tpope/vim-repeat'
+" The . key repeats the last thing you did. This plugin lets you repeat plugin
+" commands as well as native Vim ones.
+" https://github.com/tpope/vim-repeat
+Plugin 'tpope/vim-surround'
+" Plugin for surrounding text with quotes, brackets, etc. See help for usage.
+" https://github.com/tpope/vim-surround
+Plugin 'tpope/vim-commentary'
+" Toggle a comment on a line with gcc in Normal mode
+" Toggle comments on a block with gc in Visual mode or gcgc in Normal mode
+" https://github.com/tpope/vim-commentary
+Plugin 'godlygeek/tabular'
+" Align text by character using the :Tabularize command. See help for usage.
+" https://github.com/godlygeek/tabular
+Plugin 'vim-scripts/nextval'
+" Increment or decrement the number or boolean under your cursor with Ctrl-A
+" and Ctrl-X, respectively
+" https://github.com/vim-scripts/nextval
+
+" Git Plugins
+Plugin 'jreybert/vimagit'
+Plugin 'airblade/vim-gitgutter'
+
+" Colors
+Plugin 'tomasr/molokai'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'morhetz/gruvbox'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" }}}
+
+" === General Settings === {{{
+
+set exrc                   " Vim will read settings from .vimrc in project directory
+set secure                 " exrc is a security hole; this prevents insecure commands
+
+if !exists("g:syntax_on")  " Prevent unnecessary execution when sourcing this file
+    syntax enable          " Always 'syntax enable', never 'syntax on'
+endif
+" set background=dark      " Colorscheme should set this
+set synmaxcol=200          " For speed, apply syntax highlighting to only 1st 200 chars of line
+
+set mouse=a                " Enable mouse
+" Note that enabling mouse is incompatible with right-click pasting on Windows
+" Also: right click pasting on Windows executes characters as vim commands if not already in insert mode
+
+set modelines=0           " Turn off modelines for security reasons
+set history=1000
+set title                 " Set terminal title to open file
+
+" Real-world tab default size is 8 spaces; respect this when reading tabs, but
+" insert tabs as 4 spaces
+set tabstop=8             " view tab as equivalent to 8 spaces
+set softtabstop=4         " insert/delete 4 spaces when tab pressed / deleting tab
+set expandtab             " makes tabs into spaces
+set nojoinspaces          " prevent inserting two spaces after punctuation on join (J)
+set shiftwidth=4          " set width for autoindents
+
+" enable filetype-specific configuration
+filetype plugin on
+filetype indent on
+
+" Prevent converting tabs to spaces for makefiles
+autocmd FileType make setlocal noexpandtab
+
+set number                " show line numbers
+set showcmd               " displays last command entered in lower right
+set showmode              " displays current mode at the bottom
+set cursorline            " highlights current line
+
+set scrolloff=5           " start scrolling when the cursor reaches n lines from the top/bottom 
+set virtualedit=onemore   " allow cursor to go one character past last character of line
+
+set wildmenu              " enables displaying alternative autocomplete options when using tab in command mode
+set wildmode=list:longest " complete as much as possible
+set lazyredraw            " speeds up execution by not redrawing screen when not necessary
+set showmatch             " highlight matching [{(
+
+set incsearch             " search as characters are entered
+set hlsearch              " highlight search matches
+set ignorecase            " case insensitive search
+set smartcase             " except sometimes
+set infercase             " and when doing tab completions
+
+set undofile              " create <filename>.un~ on editing file; allows undo between sessions
+set undodir=~/.vim/undofiles,.
+" Write new undofiles to ~/.vim/undofiles; still reads from local directory if
+" you have any undofiles there
+au FocusLost * :wa        " Saves file whenever vim window loses focus
+set ruler                 " display line & column number in lower right
+
+set wrap
+set showbreak=»»»         " prepend these characters to wrapped lines
+set colorcolumn=81
+
+" Display invisible characters using following substitutions
+set listchars=tab:>~,nbsp:_,trail:.
+set list
+
+set backup
+" set backupdir=~/.vim/tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" set directory=~/.vim/tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupdir=~/.vim/tmp,~/.tmp,~/tmp
+set directory=~/.vim/tmp,~/.tmp,~/tmp
+" Prevent Vim from looking at global temp directories for backups
+" The commented-out lines are a good idea on your personal computer, but in a
+" shared environment like bertvm, probably not
+
+set wildignore+=*/.git/*,*/tmp/*,*.swp,*.o,*/.hg/*,*/.svn/*,*/.DS_Store,*~,*.pyc
+
+set backspace=eol,start,indent  " indent:   allow backspacing over autoindent
+                                " eol:      allow backspacing over linebreaks
+                                " start:    allow backspacing over start of
+                                "            insert
+set noerrorbells
+
+" }}}
+
+" === Keybindings === {{{
+
+inoremap jk <ESC>
+
+nnoremap <leader>s :source %<CR>
+
+" nnoremap ' `
+" nnoremap ` '
+" Reverses keys such that:
+" Typing 'a jumps to mark
+" Typing `a jumps to beginning of line where mark is
+
+nnoremap <leader><space> :nohlsearch<CR>
+" maps \<space> to unhighlight search results
+
+set foldenable            " enable code folding
+set foldlevelstart=10     " open some folds by default. Set to 0 to close all by default, 99 to open all
+set foldnestmax=10        " maximum of 10 nested folds
+set foldmethod=syntax     " other options are: marker, manual, expr, syntax, diff. For more, run :help foldmethod
+                          " previously: indent
+
+" Map space to open/close folds
+nnoremap <space> za
+
+" Inserts timestamp when pressing F5
+nnoremap <F5> "=strftime("%c")<CR>P
+inoremap <F5> <C-R>=strftime("%c")<CR>
+
+" Force save when vim was opened without sudo privileges
+" See https://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work
+cnoremap w!! w !sudo tee % >/dev/null
+
+" In visual mode, move blocks of text up and down with <C-j> and <C-k>
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
+" http://vim.wikia.com/wiki/Moving_lines_up_or_down
+
+let g:lasttab = 1
+
+" Switch to newly created splits
+nnoremap <C-w>v <C-w>v<C-w>w
+nnoremap <C-w>s <C-w>s<C-w>w
+
+" Swap functionality of Ctrl-backspace and C-w
+" Ctrl-backspace to delete a word, because Windows
+inoremap  <C-w>
+" inoremap <C-w> <C-o><C-w>
+" C-w in insert mode switches to normal mode and awaits window command
+inoremap <C-w> <ESC><C-w>
+
+" }}}
+
+" === AutoCmd === {{{
+
+" Open quick fix menu after running :make
+" https://gist.github.com/ajh17/a8f5f194079818b99199
+autocmd QuickFixCmdPost * copen
+
+" }}}
+
+" === Controversial Settings === {{{
+
+set hidden              " Allows Vim to open buffers in background
+
+" }}}
+
+" === Plugin-Specific Settings === {{{
+
+" set laststatus=2
+" set noshowmode
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_c_compiler_options = "-Wall -Wextra"
+
+function! NumberOfBuffers() abort
+    return len(getbufinfo({'buflisted':1}))
+endfunction
+
+" colorscheme molokai
+" colorscheme farout
+" colorscheme railscasts
+" colorscheme autumnleaf " Preferred light colorscheme
+" colorscheme iceman
+set background=dark
+colorscheme gruvbox
+let g:gruvbox_sign_column="bg1"
+
+nnoremap <leader>g :Magit<CR>
+
+let g:clang_library_path='/usr/local/clang+llvm-3.3-Ubuntu-13.04-x86_64-linux-gnu/lib'
+
+set completeopt=menuone,preview
+" inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "<C-P>" : "<S-Tab>"
+" https://robots.thoughtbot.com/vim-you-complete-me
+
+" }}}
+
+" === Vimscript FileType Settings === {{{
+augroup filetype_vim
+    "autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+    " That's what all those curly braces are for!
+    autocmd FileType vim setlocal foldlevel=0
+    autocmd FileType vim setlocal foldlevelstart=0
+augroup END
+" }}}
+
