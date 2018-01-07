@@ -67,6 +67,11 @@ call pathogen#helptags()
 " added, changed, or removed since the last commit.
 " https://github.com/airblade/vim-gitgutter
 "
+" CtrlP:
+" Open files more quickly by hitting Ctrl-p and typing the name of the file
+" Also keeps track of recently used files
+" https://github.com/ctrlpvim/ctrlp.vim
+"
 " -- Coding Helpers --
 "
 " Syntastic:
@@ -292,32 +297,33 @@ set hidden              " Allows Vim to open buffers in background
 
 " === Plugin-Specific Settings === {{{
 
+" Necessary statusline options for Lightline
 set laststatus=2        " Always show the statusline
-set noshowmode
+set noshowmode          " Don't show the modeline, this is included in lightline
 
+" Configure lightline blocks
+" See :help lightline for more options
 let g:lightline = {
             \ 'colorscheme': 'wombat',
             \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'readonly', 'filename', 'modified' ] ]
+            \   'left':  [ [ 'mode', 'paste' ],
+            \              [ 'readonly', 'filename', 'modified' ] ],
+            \   'right': [ [ 'lineinfo' ],
+            \              [ 'percent' ],
+            \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
             \ },
             \ 'component_function': {
             \   'syntastic': 'SyntasticStatuslineFlag'
             \ },
             \ }
 
+" Enable Syntastic statusline display if Vim supports it
 if v:version > 700
     call add(g:lightline.active.left, [ 'syntastic' ])
 endif
 
-" set statusline+=%#warningmsg#
-" if v:version > 700
-"     set statusline+=%{SyntasticStatuslineFlag()}
-" endif
-" set statusline+=%*
-
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 1               " Set to 0 to turn off popup error list
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 

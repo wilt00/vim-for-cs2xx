@@ -21,6 +21,7 @@ plugins = [
     'vim-syntastic/syntastic',
     'Rip-Rip/clang_complete',
     'ajh17/VimCompletesMe',
+    'ctrlpvim/ctrlp.vim',
     'shiracamus/vim-syntax-x86-objdump-d',
     'wilt00/vim-y86-syntax',
     'tpope/vim-repeat',
