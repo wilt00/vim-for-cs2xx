@@ -40,6 +40,11 @@ endif
 
 execute pathogen#infect()
 
+" To install your own plugins:
+" In the terminal, go to ~/.vim/bundle
+" Run "git clone [url of the plugin]"
+" Restart Vim. That's it!
+
 " The following plugins should now be installed:
 "
 " -- Interface Extensions --
@@ -55,6 +60,11 @@ execute pathogen#infect()
 " text in registers. This plugin shows you what's currently in the registers
 " when you type " or @ in normal mode
 " https://github.com/junegunn/vim-peekaboo
+"
+" VimGitgutter:
+" If this file is in a git repository, adds symbols to lines that have been
+" added, changed, or removed since the last commit.
+" https://github.com/airblade/vim-gitgutter
 "
 " -- Coding Helpers --
 "
@@ -108,25 +118,16 @@ execute pathogen#infect()
 " Increment or decrement the number or boolean under your cursor with Ctrl-A
 " and Ctrl-X, respectively
 " https://github.com/vim-scripts/nextval
-
-" -- Git Plugins --
-" Vimagit:
-" Lets you choose which changes to commit to your git repository
-" https://github.com/jreybert/vimagit
 "
-" VimGitgutter:
-" Adds symbols to lines that have been added, changed, or removed since the
-" last git commit.
-" https://github.com/airblade/vim-gitgutter
-
 " -- Colors --
+"
 " VimColorschemes:
 " Just adds a ton of colorschemes. Run :colorscheme to see them all.
 " https://github.com/flazz/vim-colorschemes
 "
 " Molokai:
 " Another good colorscheme, based on the default from Sublime Text
-" The default for this package
+" The default for this starter pack
 " https://github.com/tomasr/molokai
 
 " }}}

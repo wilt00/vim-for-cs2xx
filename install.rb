@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+# Installation script for Vim for CS2xx
+# Written in Ruby, because it's more maintainable than Bash, and besides I
+# couldn't figure out how to install Shellcheck and GHC on Bertvm
+
 require 'fileutils'
 
 def greenprint(txt)
@@ -24,7 +28,6 @@ plugins = [
     'tpope/vim-commentary',
     'godlygeek/tabular',
     'vim-scripts/nextval',
-    'jreybert/vimagit',
     'airblade/vim-gitgutter',
     'flazz/vim-colorschemes',
     'tomasr/molokai',
