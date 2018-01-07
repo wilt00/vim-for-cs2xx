@@ -33,6 +33,24 @@ plugins = [
     'tomasr/molokai',
 ]
 
+force = false
+ARGV.each do |arg|
+    if arg == "--force"
+        force = true
+    end
+end
+
+# If ~/.vimrc.old exists, this is probably not the first time this script is
+# running, and we should abort to avoid overwriting backups
+if File.file?(homedir + '.vimrc.old')
+    unless force
+        greenprint('~/.vimrc.old file found; cancelling installation')
+        greenprint('To override, pass \'--force\' argument and make sure your old .vimrc is backed up.')
+        exit
+    end
+    greenprint('Forcing installation')
+end
+
 # Back up existing .vimrc, .vim/bundle, and .vim/autoload
 if File.symlink?(homedir + '.vimrc')
     greenprint("Found symlinked .vimrc; deleting link")
