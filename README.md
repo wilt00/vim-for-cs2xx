@@ -15,6 +15,8 @@ Good question! By installing this easy starter pack, you could have:
 
 What's more, it's fully tested and guaranteed to work with the ~~archaic~~ well-tested version of Vim installed on Bertvm and Ernievm.
 
+![Screenshot](/screenshot1.jpg?raw=true "Oooh, pretty.")
+
 ## Installation
 
 First, make sure you're connected to **Bertvm** or **Ernievm**. This configuration only partially works with the 12-year-old (!!) version of Vim installed on Bert and Ernie, and **is not supported anywhere else**. Sorry folks, for your home setup, you're on your own.
