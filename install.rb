@@ -2,6 +2,12 @@
 
 require 'fileutils'
 
+def greenprint(txt)
+    green = "\033[32m"
+    greenend = "\033[0m\n"
+    printf green + txt + greenend
+end
+
 homedir = File.expand_path("~") + "/"
 vimdir = homedir + ".vim/"
 
@@ -26,36 +32,36 @@ plugins = [
 
 # Back up existing .vimrc, .vim/bundle, and .vim/autoload
 if File.symlink?(homedir + '.vimrc')
-    puts "Found symlinked .vimrc; deleting link"
+    greenprint("Found symlinked .vimrc; deleting link")
     FileUtils.rm(homedir + '.vimrc')
 elsif File.file?(homedir + '.vimrc')
-    puts "Found existing .vimrc file; backing up to ~/.vimrc.old"
+    greenprint("Found existing .vimrc file; backing up to ~/.vimrc.old")
     FileUtils.mv(homedir + '.vimrc', homedir + '.vimrc.old')
 end
 
 # Symlink .vimrc to ~
-puts "Creating symlink from ./.vimrc to ~/.vimrc ..."
+greenprint("Creating symlink from ./.vimrc to ~/.vimrc ...")
 File.symlink(File.expand_path('./.vimrc'), homedir + '.vimrc')
 
 if File.directory?(vimdir + 'bundle/')
-    puts "Found existing bundle directory; backing up to ~/.vim/bundle.old"
+    greenprint("Found existing bundle directory; backing up to ~/.vim/bundle.old")
     FileUtils.mv(vimdir + 'bundle/', vimdir + 'bundle.old/')
 end
 if File.directory?(vimdir + 'autoload/')
-    puts "Found existing autoload directory; backing up to ~/.vim/autoload.old"
+    greenprint("Found existing autoload directory; backing up to ~/.vim/autoload.old")
     FileUtils.mv(vimdir + 'autoload/', vimdir + 'autoload.old/')
 end
 
 # Install Pathogen
-puts "Creating ~/.vim and subdirectories ..."
+greenprint("Creating ~/.vim and subdirectories ...")
 `mkdir -p ~/.vim/autoload ~/.vim/bundle`
-puts "Downloading and installing Pathogen package manager ..."
+greenprint("Downloading and installing Pathogen package manager ...")
 `curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim`
 
 # git clone all plugins into ~/.vim/bundle
 cmd = "cd " + vimdir + "bundle && git clone https://github.com/"
 plugins.each do |plugin|
-    puts "Installing plugin " + plugin
+    greenprint("Installing plugin " + plugin)
     %x[ #{cmd + plugin} ]
 end
 
