@@ -35,91 +35,99 @@ endif
 
 " === Plugin Installation === {{{
 
-" Install plugins using Vundle
-" For more information: https://github.com/VundleVim/Vundle.vim
+" Install plugins using Pathogen 
+" For more information: https://github.com/tpope/vim-pathogen
+
+execute pathogen#infect()
+
+" The following plugins should now be installed:
 "
-" On first execution, run
-"   :PluginInstall
-"
-" To update plugins in the future, every so often run
-"   :PluginUpdate
-
-filetype off    " Required for Vundle, reverted later
-" Set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" Make sure you use single quotes
-
 " -- Interface Extensions --
-Plugin 'mbbill/undotree'
+"
+" Undotree:
 " Vim stores your undo history in a tree structure; this plugin lets you see it
 " Open and close undo sidebar with
 "   :UndotreeToggle
 " https://github.com/mbbill/undotree
-Plugin 'junegunn/vim-peekaboo'                " Overrides \" and @
+"
+" VimPeekaboo:
 " Instead of using a clipboard, Vim stores previously copied, cut, and deleted
 " text in registers. This plugin shows you what's currently in the registers
 " when you type " or @ in normal mode
 " https://github.com/junegunn/vim-peekaboo
-
+"
 " -- Coding Helpers --
-Plugin 'vim-syntastic/syntastic'
+"
+" Syntastic:
 " Check your code files for correct syntax on save
 " https://github.com/vim-syntastic/syntastic
-Plugin 'Rip-Rip/clang_complete'
+"
+" Clang_Complete:
 " Use the Clang compiler to provide autocompletion options for C and C++
 " https://github.com/Rip-Rip/clang_complete
-Plugin 'ajh17/VimCompletesMe'
+"
+" VimCompletesMe:
 " A more intuitive set of keybindings for Vim's autocompletion features
 " While typing, press Tab to open the autocompletion menu
 " Keep pressing Tab to cycle through the options
 " https://github.com/ajh17/VimCompletesMe
-
+"
 " -- Syntax Highlighting --
-Plugin 'shiracamus/vim-syntax-x86-objdump-d'
+"
+" vim-syntax-x86-objdump-d:
 " Syntax highlighting for the output of your objdumps
 " Make sure you save these files with the .dis extension
 " https://github.com/shiracamus/vim-syntax-x86-objdump-d
-Plugin 'wilt00/vim-y86-syntax'
+"
+" VimY86Syntax:
 " Syntax highlighting for .ya and .ys files
 " I wrote this one! Let me know if you find any bugs.
 " https://github.com/wilt00/vim-y86-syntax
-
+"
 " -- Bonus Keybindings --
-Plugin 'tpope/vim-repeat'
+"
+" VimRepeat:
 " The . key repeats the last thing you did. This plugin lets you repeat plugin
 " commands as well as native Vim ones.
 " https://github.com/tpope/vim-repeat
-Plugin 'tpope/vim-surround'
+"
+" VimSurround:
 " Plugin for surrounding text with quotes, brackets, etc. See help for usage.
 " https://github.com/tpope/vim-surround
-Plugin 'tpope/vim-commentary'
+"
+" VimCommentary:
 " Toggle a comment on a line with gcc in Normal mode
 " Toggle comments on a block with gc in Visual mode or gcgc in Normal mode
 " https://github.com/tpope/vim-commentary
-Plugin 'godlygeek/tabular'
+"
+" Tabular:
 " Align text by character using the :Tabularize command. See help for usage.
 " https://github.com/godlygeek/tabular
-Plugin 'vim-scripts/nextval'
+"
+" Nextval:
 " Increment or decrement the number or boolean under your cursor with Ctrl-A
 " and Ctrl-X, respectively
 " https://github.com/vim-scripts/nextval
 
-" Git Plugins
-Plugin 'jreybert/vimagit'
-Plugin 'airblade/vim-gitgutter'
+" -- Git Plugins --
+" Vimagit:
+" Lets you choose which changes to commit to your git repository
+" https://github.com/jreybert/vimagit
+"
+" VimGitgutter:
+" Adds symbols to lines that have been added, changed, or removed since the
+" last git commit.
+" https://github.com/airblade/vim-gitgutter
 
-" Colors
-Plugin 'tomasr/molokai'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'morhetz/gruvbox'
-
-call vundle#end()            " required
-filetype plugin indent on    " required
+" -- Colors --
+" VimColorschemes:
+" Just adds a ton of colorschemes. Run :colorscheme to see them all.
+" https://github.com/flazz/vim-colorschemes
+"
+" Molokai:
+" Another good colorscheme, based on the default from Sublime Text
+" The default for this package
+" https://github.com/tomasr/molokai
 
 " }}}
 
@@ -296,14 +304,14 @@ function! NumberOfBuffers() abort
     return len(getbufinfo({'buflisted':1}))
 endfunction
 
-" colorscheme molokai
+colorscheme molokai
 " colorscheme farout
 " colorscheme railscasts
 " colorscheme autumnleaf " Preferred light colorscheme
 " colorscheme iceman
-set background=dark
-colorscheme gruvbox
-let g:gruvbox_sign_column="bg1"
+" set background=dark
+" colorscheme gruvbox
+" let g:gruvbox_sign_column="bg1"
 
 nnoremap <leader>g :Magit<CR>
 
