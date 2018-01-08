@@ -72,6 +72,11 @@ call pathogen#helptags()
 " Also keeps track of recently used files
 " https://github.com/ctrlpvim/ctrlp.vim
 "
+" NERDTree:
+" Sidebar with a list of files in the current directory
+" Open with :NERDTreeToggle or (custom mapping) \t
+" https://github.com/scrooloose/nerdtree
+"
 " -- Coding Helpers --
 "
 " Syntastic:
@@ -339,6 +344,12 @@ colorscheme molokai
 let g:clang_library_path='/usr/local/clang+llvm-3.3-Ubuntu-13.04-x86_64-linux-gnu/lib'
 
 set completeopt=menuone,preview
+
+" Close Vim if NERDTree is the only thing left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Toggle the NERDTree file sidebar with \f
+nnoremap <leader>f :NERDTreeToggle<CR>
 
 " }}}
 
