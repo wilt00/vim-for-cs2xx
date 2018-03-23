@@ -2,16 +2,11 @@
 " Vim for CS 2XX - A Starter Configuration
 " ========================================
 "
-" Further Reading:
-" https://github.com/amix/vimrc/
-" https://github.com/spf13/spf13-vim/blob/3.0/.vimrc
-" https://stevelosh.com/blog/2010/09/coming-home-to-vim/
-" http://items.sjbach.com/319/configuring-vim-right
-" https://bluz71.github.io/2017/05/15/vim-tips-tricks.html
-" http://www.alexeyshmalko.com/2014/using-vim-as-c-cpp-ide/
-
-" For more information on anything in this file, enter
+" For more information on anything in this file, enter (in Vim)
 "   :help [thing you want info about]
+" For example, to get information about the 'colorscheme' command, you would
+" enter:
+"   :help colorscheme
 
 " Highlight a line below and press Space (or 'za') in Normal mode to fold and
 " unfold sections of this file. 'zR' to open everything.
@@ -245,6 +240,8 @@ set foldlevelstart=10     " open some folds by default. Set to 0 to close all by
 set foldnestmax=10        " maximum of 10 nested folds
 set foldmethod=syntax     " other options are: indent, marker, manual, expr, syntax, diff. For more, run :help foldmethod
 
+" set tags=./tags,./.tags,tags,.tags
+
 " }}}
 
 " === Keybindings === {{{
@@ -328,7 +325,7 @@ if v:version > 700
 endif
 
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1               " Set to 0 to turn off popup error list
+let g:syntastic_auto_loc_list = 0               " Set to 0 to turn off popup error list
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
@@ -351,6 +348,9 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Toggle the NERDTree file sidebar with \f
 nnoremap <leader>f :NERDTreeToggle<CR>
 
+let g:autotagTagsFile=".tags"
+let g:autotagCtagsCmd='find . -regex ".*\.[cChH]\(pp\)?" -print | ctags - -o .tags'
+
 " }}}
 
 " === Vimscript FileType Settings === {{{
@@ -362,4 +362,15 @@ augroup filetype_vim
     autocmd FileType vim setlocal foldlevelstart=0
 augroup END
 " }}}
+
+
+" Further Reading:
+" https://stackoverflow.com/questions/1218390/what-is-your-most-productive-shortcut-with-vim?page=1&tab=votes#tab-top
+" https://yanpritzker.com/learn-to-speak-vim-verbs-nouns-and-modifiers-d7bfed1f6b2d
+" https://github.com/amix/vimrc/
+" https://github.com/spf13/spf13-vim/blob/3.0/.vimrc
+" https://stevelosh.com/blog/2010/09/coming-home-to-vim/
+" http://items.sjbach.com/319/configuring-vim-right
+" https://bluz71.github.io/2017/05/15/vim-tips-tricks.html
+" http://www.alexeyshmalko.com/2014/using-vim-as-c-cpp-ide/
 
