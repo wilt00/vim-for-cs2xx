@@ -41,7 +41,8 @@ call pathogen#helptags()
 " Run "git clone [url of the plugin]"
 " Restart Vim. That's it!
 
-" The following plugins should now be installed:
+" If you ran the 'install.rb' script, the following plugins should now be
+" installed:
 "
 " -- Interface Extensions --
 "
@@ -220,8 +221,8 @@ set list
 set backup                " Vim will create .swp files if your session crashes
 " set backupdir=~/.vim/tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 " set directory=~/.vim/tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set backupdir=~/.vim/tmp,~/.tmp,~/tmp
-set directory=~/.vim/tmp,~/.tmp,~/tmp
+set backupdir=.,~/.vim/tmp,~/.tmp,~/tmp
+set directory=.,~/.vim/tmp,~/.tmp,~/tmp
 " Prevent Vim from looking at global temp directories for backups
 " The commented-out lines are a good idea on your personal computer, but in a
 " shared environment like bertvm, probably not
