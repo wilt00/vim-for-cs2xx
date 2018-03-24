@@ -70,8 +70,14 @@ call pathogen#helptags()
 "
 " NERDTree:
 " Sidebar with a list of files in the current directory
-" Open with :NERDTreeToggle or (custom mapping) \t
+" Open with :NERDTreeToggle or (custom mapping) \f
 " https://github.com/scrooloose/nerdtree
+"
+" Tagbar:
+" Sidebar with a list of the variables and functions in the current file
+" Open with :TagbarToggle or (custom mapping) \t
+" DO NOT UPDATE! Recent versions break compatibility with this version of Vim
+" https://github.com/majutsushi/tagbar
 "
 " -- Coding Helpers --
 "
@@ -349,8 +355,12 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Toggle the NERDTree file sidebar with \f
 nnoremap <leader>f :NERDTreeToggle<CR>
 
-let g:autotagTagsFile=".tags"
-let g:autotagCtagsCmd='find . -regex ".*\.[cChH]\(pp\)?" -print | ctags - -o .tags'
+nnoremap <leader>t :TagbarToggle<CR>
+
+let g:tagbar_ctags_bin='$HOME/.vim/ctags/ctags'
+
+" let g:autotagTagsFile=".tags"
+" let g:autotagCtagsCmd='find . -regex ".*\.[cChH]\(pp\)?" -print | $HOME/.vim/ctags/ctags - -o .tags'
 
 " }}}
 

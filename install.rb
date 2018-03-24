@@ -14,6 +14,8 @@ end
 
 homedir = File.expand_path("~") + "/"
 vimdir = homedir + ".vim/"
+ctags_tar = "ctags-5.8.tar.gz"
+ctags_url = "http://prdownloads.sourceforge.net/ctags/#{ctags_tar}"
 
 plugins = [
     'mbbill/undotree',
@@ -34,7 +36,9 @@ plugins = [
     'itchyny/lightline.vim',
     'flazz/vim-colorschemes',
     'tomasr/molokai',
+    'majutsushi/tagbar',
 ]
+# tagbar handled separately, see below
 
 force = false
 ARGV.each do |arg|
@@ -102,4 +106,16 @@ plugins.each do |plugin|
     greenprint("Installing plugin " + plugin)
     %x[ #{cmd + plugin} ]
 end
+
+# Special handling for tagbar - for compatibility with bertvm, cannot exceed
+#  certain version
+`cd #{vimdir}bundle/tagbar && git checkout d4a08c33e516314f35c541b34fe7f909c2ff4381 .`
+
+# Tagbar syntax highlighting is broken in this version, so nuke it
+FileUtils.rm(vimdir + 'bundle/tagbar/syntax/tagbar.vim')
+
+# Download and compile exuberant-ctags
+`wget #{ctags_url}`
+`tar -xf #{ctags_tar} -C #{vimdir}ctags`
+`cd #{vimdir}ctags && ./configure && make`
 
