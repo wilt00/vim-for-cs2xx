@@ -79,6 +79,11 @@ call pathogen#helptags()
 " DO NOT UPDATE! Recent versions break compatibility with this version of Vim
 " https://github.com/majutsushi/tagbar
 "
+" fzf:
+" Fuzzy file finder
+" https://github.com/junegunn/fzf
+" https://github.com/junegunn/fzf.vim
+" 
 " -- Coding Helpers --
 "
 " Syntastic:
@@ -254,6 +259,8 @@ set foldmethod=syntax     " other options are: indent, marker, manual, expr, syn
 " === Keybindings === {{{
 
 " By default, <leader> is \
+" Toggle fzf pane.
+map ' :Files<CR>
 
 " Remap jk to Escape, so you can use it to switch back to Normal mode
 inoremap jk <ESC>
